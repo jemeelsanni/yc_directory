@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useActionState } from "react";
+import React, { useState, useTransition } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import MDEditor from "@uiw/react-md-editor";
@@ -11,12 +11,14 @@ import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { createPitch } from "@/lib/actions";
+import { useFormState } from "react-dom";
 
 const StartupForm = () => {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [pitch, setPitch] = useState("");
     const { toast } = useToast();
     const router = useRouter();
+    const [isPending, startTransition] = useTransition();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleFormSubmit = async (prevState: any, formData: FormData) => {
@@ -72,7 +74,8 @@ const StartupForm = () => {
         }
     };
 
-    const [state, formAction, isPending] = useActionState(handleFormSubmit, {
+    // Changed here: Using useFormState instead of useActionState
+    const [formState, formAction] = useFormState(handleFormSubmit, {
         error: "",
         status: "INITIAL",
     });
@@ -171,6 +174,7 @@ const StartupForm = () => {
                 type="submit"
                 className="startup-form_btn text-white"
                 disabled={isPending}
+                onClick={() => startTransition(() => { })} // This makes the isPending state update properly
             >
                 {isPending ? "Submitting..." : "Submit Your Pitch"}
                 <Send className="size-6 ml-2" />
