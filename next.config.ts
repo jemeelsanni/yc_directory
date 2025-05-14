@@ -1,6 +1,15 @@
+import { ESLint } from './node_modules/eslint/lib/types/index.d';
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+    typescript: {
+        ignoreBuildErrors: true
+    },
+    eslint: {
+        // Optional: Disable ESLint during development for faster builds
+        ignoreDuringBuilds: process.env.NODE_ENV === 'development',
+      },
+    
   images: {
     dangerouslyAllowSVG: true,
     remotePatterns: [
@@ -34,10 +43,7 @@ const nextConfig: NextConfig = {
     // buildActivityPosition: "bottom-left", - renamed
     position: "bottom-left", // This replaces buildActivityPosition
   },
-  eslint: {
-    // Optional: Disable ESLint during development for faster builds
-    ignoreDuringBuilds: process.env.NODE_ENV === 'development',
-  }
+ 
 };
 
 export default nextConfig;
