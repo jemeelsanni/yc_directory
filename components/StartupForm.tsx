@@ -20,7 +20,6 @@ const StartupForm = () => {
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleFormSubmit = async (prevState: any, formData: FormData) => {
         try {
             const formValues = {
@@ -74,8 +73,8 @@ const StartupForm = () => {
         }
     };
 
-    // Changed here: Using useFormState instead of useActionState
-    const [formState, formAction] = useFormState(handleFormSubmit, {
+    // Fixed: Added underscore prefix to indicate intentionally unused variable
+    const [_formState, formAction] = useFormState(handleFormSubmit, {
         error: "",
         status: "INITIAL",
     });
