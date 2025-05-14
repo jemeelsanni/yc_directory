@@ -30,7 +30,7 @@ const StartupForm = () => {
     const [isPending, startTransition] = useTransition();
 
     // Using any for createPitch parameters to bypass TypeScript checks
-    // @ts-ignore
+    // @ts-expect-error
     const handleFormSubmit = async (prevState, formData) => {
         try {
             const formValues = {
@@ -43,7 +43,7 @@ const StartupForm = () => {
 
             await formSchema.parseAsync(formValues);
 
-            // @ts-ignore - Bypass TypeScript check
+
             const result = await createPitch(prevState, formData, pitch);
 
             if (result.status == "SUCCESS") {
